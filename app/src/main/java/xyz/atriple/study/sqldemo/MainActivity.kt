@@ -13,8 +13,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btn_add.setOnClickListener { _: View ->
+            var customer: Customer
             try {
-                val customer: Customer = Customer(
+                customer = Customer(
                     -1,
                     et_name.text.toString(),
                     et_age.text.toString().toInt(),
@@ -24,8 +25,12 @@ class MainActivity : AppCompatActivity() {
             }
             catch(e: Exception) {
                 Toast.makeText(this, "Error creating customer", Toast.LENGTH_SHORT).show()
+                customer = Customer(-1, "error", 0, false)
             }
 
+            val databaseHelper: DatabaseHelper = DatabaseHelper(this)
+            databaseHelper.addOne(customer)
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         }
         btn_viewAll.setOnClickListener { _: View ->
             Toast.makeText(
